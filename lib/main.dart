@@ -15,8 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Genius',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: ThemeData(
+        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: Colors.black,
+      ),
       home: const MyHomePage(),
     );
   }
@@ -32,52 +36,130 @@ class MyHomePage extends StatelessWidget {
 
       body: Consumer<Estado>(
         builder: (context, state, child) {
-          if (state.estadoJogo == EstadoJogo.perdeu) {
+          // Tela inicial / perdeu
+          if (state.estadoJogo == EstadoJogo.iniciar) {
             return Center(
               child: ElevatedButton(
                 onPressed: state.iniciarJogo,
                 child: const Text('Começar jogo'),
               ),
             );
+          } else if (state.estadoJogo == EstadoJogo.perdeu) {
+            return Scaffold(
+              backgroundColor: Colors.red,
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'SUA PONTUAÇÃO',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '${state.pontuacao}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: state.iniciarJogo,
+                      child: Text('Recomeçar Jogo'),
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
 
+          // Jogo
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Botao(
-                    cor: Cores.red,
-                    clicavel: state.clicavel,
-                    devePiscar: state.corPiscando == Cores.red,
-                    funcaoBotao: () => state.recebeClique(Cores.red),
-                  ),
-                  Botao(
-                    cor: Cores.green,
-                    clicavel: state.clicavel,
-                    devePiscar: state.corPiscando == Cores.green,
-                    funcaoBotao: () => state.recebeClique(Cores.green),
-                  ),
-                ],
-              ),
+              Expanded(
+                child: Center(
+                  child: SizedBox(
+                    width: 360,
+                    height: 360,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Vermelho
+                        Positioned(
+                          top: 5,
+                          left: 5,
+                          child: Botao(
+                            cor: Cores.red,
+                            clicavel: state.clicavel,
+                            devePiscar: state.corPiscando == Cores.red,
+                            funcaoBotao: () => state.recebeClique(Cores.red),
+                          ),
+                        ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Botao(
-                    cor: Cores.blue,
-                    clicavel: state.clicavel,
-                    devePiscar: state.corPiscando == Cores.blue,
-                    funcaoBotao: () => state.recebeClique(Cores.blue),
+                        // Verde
+                        Positioned(
+                          top: 5,
+                          right: 5,
+                          child: Botao(
+                            cor: Cores.green,
+                            clicavel: state.clicavel,
+                            devePiscar: state.corPiscando == Cores.green,
+                            funcaoBotao: () => state.recebeClique(Cores.green),
+                          ),
+                        ),
+
+                        // Azul
+                        Positioned(
+                          bottom: 5,
+                          left: 5,
+                          child: Botao(
+                            cor: Cores.blue,
+                            clicavel: state.clicavel,
+                            devePiscar: state.corPiscando == Cores.blue,
+                            funcaoBotao: () => state.recebeClique(Cores.blue),
+                          ),
+                        ),
+
+                        // Amarelo
+                        Positioned(
+                          bottom: 5,
+                          right: 5,
+                          child: Botao(
+                            cor: Cores.yellow,
+                            clicavel: state.clicavel,
+                            devePiscar: state.corPiscando == Cores.yellow,
+                            funcaoBotao: () => state.recebeClique(Cores.yellow),
+                          ),
+                        ),
+
+                        // Centro
+                        Container(
+                          width: 130,
+                          height: 130,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black,
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${state.pontuacao}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Botao(
-                    cor: Cores.yellow,
-                    clicavel: state.clicavel,
-                    devePiscar: state.corPiscando == Cores.yellow,
-                    funcaoBotao: () => state.recebeClique(Cores.yellow),
-                  ),
-                ],
+                ),
               ),
             ],
           );

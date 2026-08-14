@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:untitled/model/cores.dart';
+import 'package:flutter/material.dart';
 
 class Botao extends StatelessWidget {
   const Botao({
@@ -16,16 +16,21 @@ class Botao extends StatelessWidget {
   final VoidCallback funcaoBotao;
 
   Color get corAtual {
-    return devePiscar ? cor.color : cor.color.withValues(alpha: 0.5);
+    return devePiscar ? cor.color : cor.color.withValues(alpha: 0.6);
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
-      height: 200,
+      width: 170,
+      height: 170,
       child: TextButton(
-        style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(corAtual)),
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(corAtual),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          ),
+        ),
         onPressed: clicavel ? funcaoBotao : null,
         child: const SizedBox(),
       ),

@@ -42,8 +42,6 @@ class Estado with ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 500));
 
     for (final cor in listaCombinacao) {
-      print(cor);
-      print('----');
       corPiscando = cor;
       notifyListeners();
 
@@ -68,6 +66,7 @@ class Estado with ChangeNotifier {
       print('vc perdeu');
       return;
     }
+    pontuacao++;
 
     if (contadorUsuario == listaCombinacao.length - 1) {
       contadorUsuario = 0;
@@ -82,4 +81,4 @@ class Estado with ChangeNotifier {
   }
 }
 
-enum EstadoJogo { jogando, perdeu, mostrando }
+enum EstadoJogo { iniciar, jogando, perdeu, mostrando }

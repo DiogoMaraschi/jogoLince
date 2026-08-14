@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/model/cores.dart';
 
@@ -8,7 +7,7 @@ class Botao extends StatelessWidget {
     required this.cor,
     required this.clicavel,
     required this.devePiscar,
-    required this.funcaoBotao
+    required this.funcaoBotao,
   });
 
   final Cores cor;
@@ -17,9 +16,7 @@ class Botao extends StatelessWidget {
   final VoidCallback funcaoBotao;
 
   Color get corAtual {
-    return devePiscar
-        ? cor.color.withValues(alpha: 1)
-        : cor.color.withValues(alpha: 0.5);
+    return devePiscar ? cor.color : cor.color.withValues(alpha: 0.5);
   }
 
   @override
@@ -28,11 +25,9 @@ class Botao extends StatelessWidget {
       width: 200,
       height: 200,
       child: TextButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(corAtual),
-        ),
-        onPressed: funcaoBotao,
-        child: Text(''),
+        style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(corAtual)),
+        onPressed: clicavel ? funcaoBotao : null,
+        child: const SizedBox(),
       ),
     );
   }

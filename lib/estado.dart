@@ -8,52 +8,77 @@ class Estado with ChangeNotifier {
 
   int contadorUsuario = 0;
 
+  int pontuacao = 0;
+
   Cores? corPiscando;
-
-  bool clicavel = false;
-
-  bool continuar = false;
 
   EstadoJogo estadoJogo = EstadoJogo.perdeu;
 
-  bool iniciarJogo() {
-    estadoJogo = .jogando;
+  bool get clicavel => estadoJogo == EstadoJogo.jogando;
+
+  void iniciarJogo() {
+    listaCombinacao.clear();
+
+    contadorUsuario = 0;
+    pontuacao = 0;
+
+    sortearProximo();
+
     mostrarCombinacao();
-    notifyListeners();
-    return clicavel;
   }
 
   void sortearProximo() {
     final random = Random();
+
     listaCombinacao.add(Cores.values[random.nextInt(Cores.values.length)]);
-    notifyListeners();
   }
 
   Future<void> mostrarCombinacao() async {
-    for (int i = 0; i < listaCombinacao.length; i++) {
-      corPiscando = listaCombinacao[i];
+    estadoJogo = EstadoJogo.mostrando;
+    corPiscando = null;
+
+    notifyListeners();
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    for (final cor in listaCombinacao) {
+      print(cor);
+      print('----');
+      corPiscando = cor;
       notifyListeners();
-      await Future.delayed(Duration(seconds: 1));
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      corPiscando = null;
+      notifyListeners();
+
+      await Future.delayed(const Duration(milliseconds: 300));
     }
 
-    corPiscando = null;
-    clicavel = true;
+    estadoJogo = EstadoJogo.jogando;
     notifyListeners();
   }
 
   void recebeClique(Cores cor) {
+    if (!clicavel) return;
+
     if (cor != listaCombinacao[contadorUsuario]) {
-      estadoJogo = .perdeu;
+      estadoJogo = EstadoJogo.perdeu;
+      notifyListeners();
+      print('vc perdeu');
       return;
     }
 
     if (contadorUsuario == listaCombinacao.length - 1) {
-      mostrarCombinacao();
       contadorUsuario = 0;
-      //
-    } else {
-      contadorUsuario++;
+      sortearProximo();
+      mostrarCombinacao();
+      return;
     }
+
+    contadorUsuario++;
+
+    notifyListeners();
   }
 }
 

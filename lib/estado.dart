@@ -2,9 +2,18 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:untitled/model/cores.dart';
+import 'package:untitled/record_repository.dart';
 
 class Estado with ChangeNotifier {
-  final List<Cores> listaCombinacao = [Cores.blue, Cores.green, Cores.red];
+  Estado() {
+    carregarRecord();
+  }
+
+  final RecordRepository recordRepository = RecordRepository();
+
+  int record = 0;
+
+  final List<Cores> listaCombinacao = [];
 
   int contadorUsuario = 0;
 
@@ -12,7 +21,7 @@ class Estado with ChangeNotifier {
 
   Cores? corPiscando;
 
-  EstadoJogo estadoJogo = EstadoJogo.perdeu;
+  EstadoJogo estadoJogo = EstadoJogo.iniciar;
 
   bool get clicavel => estadoJogo == EstadoJogo.jogando;
 
@@ -43,40 +52,74 @@ class Estado with ChangeNotifier {
 
     for (final cor in listaCombinacao) {
       corPiscando = cor;
+
       notifyListeners();
 
       await Future.delayed(const Duration(seconds: 1));
 
       corPiscando = null;
+
       notifyListeners();
 
       await Future.delayed(const Duration(milliseconds: 300));
     }
 
     estadoJogo = EstadoJogo.jogando;
+
     notifyListeners();
   }
 
-  void recebeClique(Cores cor) {
+  Future<void> recebeClique(Cores cor) async {
     if (!clicavel) return;
 
+    await piscarBotaoClicado(cor);
+
+    // errou
     if (cor != listaCombinacao[contadorUsuario]) {
       estadoJogo = EstadoJogo.perdeu;
+
+      if (pontuacao > record) {
+        record = pontuacao;
+
+        await recordRepository.salvarRecord(record);
+      }
+
       notifyListeners();
-      print('vc perdeu');
+
       return;
     }
+
+    // acertou
     pontuacao++;
 
     if (contadorUsuario == listaCombinacao.length - 1) {
       contadorUsuario = 0;
+
       sortearProximo();
-      mostrarCombinacao();
+
+      await mostrarCombinacao();
+
       return;
     }
 
     contadorUsuario++;
 
+    notifyListeners();
+  }
+
+  Future<void> carregarRecord() async {
+    record = await recordRepository.buscarRecord();
+
+    notifyListeners();
+  }
+
+  Future<void> piscarBotaoClicado(Cores cor) async {
+    // Faz o botão clicado piscar
+    corPiscando = cor;
+    notifyListeners();
+
+    await Future.delayed(const Duration(milliseconds: 400));
+    corPiscando = null;
     notifyListeners();
   }
 }

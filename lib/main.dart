@@ -55,7 +55,7 @@ class MyHomePage extends StatelessWidget {
                       'SUA PONTUAÇÃO',
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 30,
+                        fontSize: 35,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -63,7 +63,7 @@ class MyHomePage extends StatelessWidget {
                       '${state.pontuacao}',
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 50,
+                        fontSize: 60,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -71,6 +71,17 @@ class MyHomePage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: state.iniciarJogo,
                       child: Text('Recomeçar Jogo'),
+                    ),
+
+                    SizedBox(height: 200),
+
+                    Text(
+                      'RECORDE ${state.record}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),

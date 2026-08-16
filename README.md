@@ -41,9 +41,3 @@ Um jogo inspirado no clássico Genius, desenvolvido em Flutter durante um encont
 - Gerenciamento de estado
 - Persistência local
 - Componentização de widgets
-
-## ▶️ Como executar
-
-```bash
-flutter pub get
-flutter run

@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:untitled/estado.dart';
 import 'package:untitled/model/cores.dart';
 import 'package:untitled/ui/botao.dart';
+import 'package:untitled/ui/game_over_page.dart';
+import 'package:untitled/ui/start_page.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(create: (_) => Estado(), child: const MyApp()));
@@ -32,60 +34,21 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Genius')),
+      appBar: AppBar(
+        title: const Text('Genius', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
+      ),
 
       body: Consumer<Estado>(
         builder: (context, state, child) {
           // Tela inicial / perdeu
           if (state.estadoJogo == EstadoJogo.iniciar) {
-            return Center(
-              child: ElevatedButton(
-                onPressed: state.iniciarJogo,
-                child: const Text('Começar jogo'),
-              ),
-            );
+            return StartPage(onComecar: state.iniciarJogo);
           } else if (state.estadoJogo == EstadoJogo.perdeu) {
-            return Scaffold(
-              backgroundColor: Colors.red,
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'SUA PONTUAÇÃO',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${state.pontuacao}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 60,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: state.iniciarJogo,
-                      child: Text('Recomeçar Jogo'),
-                    ),
-
-                    SizedBox(height: 200),
-
-                    Text(
-                      'RECORDE ${state.record}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            return GameOverPage(
+              onGameover: state.iniciarJogo,
+              pontuacao: state.pontuacao,
+              recorde: state.record,
             );
           }
 

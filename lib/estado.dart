@@ -2,12 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:untitled/model/cores.dart';
-import 'package:untitled/record_repository.dart';
+import 'package:untitled/repo/record_repository.dart';
+import 'package:untitled/repo/sound_repository.dart';
 
 class Estado with ChangeNotifier {
   Estado() {
     carregarRecord();
   }
+
+  final SoundRepository soundRepository = SoundRepository();
 
   final RecordRepository recordRepository = RecordRepository();
 
@@ -54,6 +57,9 @@ class Estado with ChangeNotifier {
       corPiscando = cor;
 
       notifyListeners();
+
+      //teste de som
+      await soundRepository.tocarCores(cor);
 
       await Future.delayed(const Duration(seconds: 1));
 
@@ -114,7 +120,7 @@ class Estado with ChangeNotifier {
   }
 
   Future<void> piscarBotaoClicado(Cores cor) async {
-    // Faz o botão clicado piscar
+    await soundRepository.tocarCores(cor);
     corPiscando = cor;
     notifyListeners();
 

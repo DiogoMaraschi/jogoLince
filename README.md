@@ -1,43 +1,63 @@
-# 🎮 Genius
+# Genius
 
 Um jogo inspirado no clássico Genius, desenvolvido em Flutter durante um encontro presencial da Lince.
 
-## 📱 Demonstração
+## Demonstração
 
 ![Gameplay](assets/gifs/gameplay.gif)
 
-## 🖼️ Screenshots
+## Screenshots
 
 | Tela inicial | Durante o jogo | Game Over |
 |---|---|---|
 | ![Início](assets/images/inicio.png) | ![Jogo](assets/images/jogo.png) | ![Game Over](assets/images/game_over.png) |
 
-## 🚀 Funcionalidades
+## Funcionalidades
+Sistema de sequência progressiva de cores
+Efeitos sonoros diferentes para cada cor
+Validação dos comandos do jogador
+Feedback visual dos botões
+Sistema de pontuação
+Sistema de recorde com persistência local
+Tela de Game Over
+Reprodução automática da sequência
+Gerenciamento de estado com Provider
 
-- Sequência aleatória de cores
-- Reprodução da sequência para o jogador
-- Validação dos cliques
-- Feedback visual ao clicar
-- Sistema de pontuação
-- Sistema de recorde
-- Persistência do recorde
-- Tela de Game Over
-- Gerenciamento de estado com Provider
-
-## 🛠️ Tecnologias
+## Tecnologias
 
 - Flutter
 - Dart
 - Provider
 - SharedPreferences
+- audioplayers
 
-## 🧠 Conceitos praticados
+## Conceitos praticados
 
-- `ChangeNotifier`
-- `Provider`
-- `async/await`
-- `Future.delayed`
-- `enum`
+- ChangeNotifier
+- Provider
+- async/await
+- Future.delayed
+- enum
+- Map
 - Gerenciamento de estado
 - Persistência local
 - Componentização de widgets
+- Reprodução de áudio
+- Organização de assets
+
+## Estrutura de Assets
+
+assets/
+├── images/
+│   ├── inicio.png
+│   ├── jogo.png
+│   └── game_over.png
+│
+├── gifs/
+│   └── gameplay.gif
+│
+└── sounds/
+    ├── soundR.wav
+    ├── soundG.wav
+    ├── soundB.wav
+    └── soundY.wav
